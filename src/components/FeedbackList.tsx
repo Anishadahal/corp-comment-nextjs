@@ -1,28 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import FeedbackItem from "./FeedbackItem";
+import Spinner from "./Spinner";
+import ErrorMessage from "./ErrorMessage";
+
+export type FeedbackItemType = {
+  id: number;
+  upvoteCount: number;
+  company: string;
+  badgeLetter: string;
+  daysAgo: number;
+  text: string;
+};
 
 export default function FeedbackList() {
+  const [feedbackItems, setFeedbackItems] = useState<FeedbackItemType[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  useEffect(() => {
+    const getFeedbackItems = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(
+          "https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks"
+        );
+        if (!res.ok) {
+          throw new Error();
+        }
+
+        const data = await res.json();
+        setFeedbackItems(data.feedbacks);
+      } catch (error) {
+        setErrorMessage("Something went wrong. Please try again later!");
+        console.warn(error);
+      }
+
+      setIsLoading(false);
+    };
+
+    getFeedbackItems();
+  }, []);
+
   return (
     <ol className="feedback-list">
-      <li className="feedback">
-        <button>
-          {/* <TriangleUpIcon from radix ui/> */}
+      {isLoading ? <Spinner /> : null}
 
-          <span>593</span>
-        </button>
-        <div>
-          <p>B</p>
-        </div>
+      {errorMessage ? <ErrorMessage message={errorMessage} /> : null}
 
-        <div>
-          <p>Facebook</p>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            Consequuntur dolores dolorum enim architecto itaque dolorem?
-          </p>
-        </div>
-
-        <p>4d</p>
-      </li>
+      {feedbackItems.map((feedbackItem) => (
+        <FeedbackItem feedbackItem={feedbackItem} key={feedbackItem.id} />
+      ))}
     </ol>
   );
 }
