@@ -1,6 +1,6 @@
+import { FeedbackItemType } from "@/lib/type";
 import { TriangleUpIcon } from "@radix-ui/react-icons";
 import React from "react";
-import { FeedbackItemType } from "./FeedbackList";
 
 export default function FeedbackItem({
   feedbackItem,

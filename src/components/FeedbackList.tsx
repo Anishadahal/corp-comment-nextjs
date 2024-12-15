@@ -4,15 +4,17 @@ import Spinner from "./Spinner";
 import ErrorMessage from "./ErrorMessage";
 import { FeedbackItemType } from "@/lib/type";
 
+type FeedbackListProps = {
+  isLoading: boolean;
+  errorMessage: string;
+  feedbackItems: FeedbackItemType[];
+};
+
 export default function FeedbackList({
   isLoading,
   errorMessage,
   feedbackItems,
-}: {
-  isLoading: boolean;
-  errorMessage: string;
-  feedbackItems: FeedbackItemType[];
-}) {
+}: FeedbackListProps) {
   return (
     <ol className="feedback-list">
       {isLoading ? <Spinner /> : null}
