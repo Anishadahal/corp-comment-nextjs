@@ -9,6 +9,13 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  const companyList = feedbackItems.map((item) => item.company);
+  console.log({ companyList });
+
+  const uniqueCompanyList = companyList.filter((company, index, array) => {
+    return array.indexOf(company) === index;
+  });
+
   const onAddToList = async (text: string) => {
     const companyName = text
       .split(" ")
@@ -72,7 +79,7 @@ export default function Home() {
         feedbackItems={feedbackItems}
         onAddToList={onAddToList}
       />
-      <HastagList />
+      <HastagList companyList={uniqueCompanyList} />
     </div>
   );
 }
