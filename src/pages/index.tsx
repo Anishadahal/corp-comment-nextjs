@@ -9,8 +9,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const onAddToList = (text1: string) => {
-    const text = "This college is good. #ria";
+  const onAddToList = async (text: string) => {
     const companyName = text
       .split(" ")
       .find((word) => word.includes("#"))
@@ -20,11 +19,24 @@ export default function Home() {
       id: new Date().getTime(),
       badgeLetter: companyName?.substring(0, 1).toUpperCase() ?? "",
       company: companyName?.toUpperCase() ?? "",
-      daysAgo: 3,
+      daysAgo: 0,
       text: text,
-      upvoteCount: 300,
+      upvoteCount: 0,
     };
     setFeedbackItems((prev) => [...prev, newItem]);
+
+    //post request
+    await fetch(
+      "https://bytegrad.com/course-assets/projects/corpcomment/api/feedbacks",
+      {
+        method: "POST",
+        body: JSON.stringify(newItem),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
   };
 
   useEffect(() => {
@@ -49,7 +61,6 @@ export default function Home() {
     };
 
     getFeedbackItems();
-    onAddToList("");
   }, []);
 
   return (
@@ -59,6 +70,7 @@ export default function Home() {
         errorMessage={errorMessage}
         isLoading={isLoading}
         feedbackItems={feedbackItems}
+        onAddToList={onAddToList}
       />
       <HastagList />
     </div>

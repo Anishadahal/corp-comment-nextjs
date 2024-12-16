@@ -2,7 +2,11 @@ import React, { useState } from "react";
 
 const MAX_CHARACTERS = 150;
 
-export default function FeedbackForm() {
+export default function FeedbackForm({
+  onAddToList,
+}: {
+  onAddToList: (str: string) => void;
+}) {
   const [text, setText] = useState<string>("");
 
   const charCount = text.length;
@@ -14,8 +18,14 @@ export default function FeedbackForm() {
     setText(event.target.value);
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onAddToList(text);
+    setText("");
+  };
+
   return (
-    <form className="form">
+    <form className="form" onSubmit={handleSubmit}>
       <textarea
         name=""
         value={text}
@@ -30,7 +40,7 @@ export default function FeedbackForm() {
       </label>
       <div>
         <p className="italic">{remainingCharacters}</p>
-        <button>Submit</button>
+        <button type="submit">Submit</button>
       </div>
     </form>
   );

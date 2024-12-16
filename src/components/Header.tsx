@@ -4,7 +4,11 @@ import Logo from "./Logo";
 import PageHeading from "./PageHeading";
 import FeedbackForm from "./FeedbackForm";
 
-export default function Header() {
+export default function Header({
+  onAddToList,
+}: {
+  onAddToList: (str: string) => void;
+}) {
   return (
     <header
       className="h-[277px] bg-[#121618] flex flex-col items-center justify-center relative 
@@ -13,7 +17,7 @@ export default function Header() {
       <Pattern />
       <Logo />
       <PageHeading />
-      <FeedbackForm />
+      <FeedbackForm onAddToList={onAddToList} />
     </header>
   );
 }
