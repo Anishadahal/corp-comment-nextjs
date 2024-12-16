@@ -8,13 +8,19 @@ export default function Home() {
   const [feedbackItems, setFeedbackItems] = useState<FeedbackItemType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [selectedCompany, setSelectedCompany] = useState("");
 
   const companyList = feedbackItems.map((item) => item.company);
-  console.log({ companyList });
 
   const uniqueCompanyList = companyList.filter((company, index, array) => {
     return array.indexOf(company) === index;
   });
+
+  const filteredFeedbackItems = selectedCompany
+    ? feedbackItems.filter(
+        (feedbackItem) => feedbackItem.company === selectedCompany
+      )
+    : feedbackItems;
 
   const onAddToList = async (text: string) => {
     const companyName = text
@@ -76,10 +82,13 @@ export default function Home() {
       <Container
         errorMessage={errorMessage}
         isLoading={isLoading}
-        feedbackItems={feedbackItems}
+        feedbackItems={filteredFeedbackItems}
         onAddToList={onAddToList}
       />
-      <HastagList companyList={uniqueCompanyList} />
+      <HastagList
+        companyList={uniqueCompanyList}
+        setSelectedCompany={setSelectedCompany}
+      />
     </div>
   );
 }
