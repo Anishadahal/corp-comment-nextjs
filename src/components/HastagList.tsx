@@ -12,6 +12,7 @@ export default function HastagList({
       {companyList.map((company) => (
         <li key={company}>
           <button
+            value={company}
             onClick={(e) => {
               setSelectedCompany(e.currentTarget.value);
             }}
