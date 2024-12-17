@@ -2,7 +2,7 @@ import Container from "@/components/Container";
 import Footer from "@/components/Footer";
 import HastagList from "@/components/HastagList";
 import { FeedbackItemType } from "@/lib/type";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
   const [feedbackItems, setFeedbackItems] = useState<FeedbackItemType[]>([]);
@@ -10,17 +10,23 @@ export default function Home() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [selectedCompany, setSelectedCompany] = useState("");
 
-  const companyList = feedbackItems.map((item) => item.company);
+  const companyList: string[] = useMemo(() => {
+    return feedbackItems.map((item) => item.company);
+  }, [feedbackItems]);
 
-  const uniqueCompanyList = companyList.filter((company, index, array) => {
-    return array.indexOf(company) === index;
-  });
+  const uniqueCompanyList = companyList
+    ? companyList.filter((company, index, array) => {
+        return array.indexOf(company) === index;
+      })
+    : [];
 
-  const filteredFeedbackItems = selectedCompany
-    ? feedbackItems.filter(
-        (feedbackItem) => feedbackItem.company === selectedCompany
-      )
-    : feedbackItems;
+  const filteredFeedbackItems: FeedbackItemType[] = useMemo(() => {
+    return selectedCompany
+      ? feedbackItems.filter(
+          (feedbackItem) => feedbackItem.company === selectedCompany
+        )
+      : feedbackItems;
+  }, [feedbackItems, selectedCompany]);
 
   const onAddToList = async (text: string) => {
     const companyName = text
