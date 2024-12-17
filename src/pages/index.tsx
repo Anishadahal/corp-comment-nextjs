@@ -28,7 +28,7 @@ export default function Home() {
       : feedbackItems;
   }, [feedbackItems, selectedCompany]);
 
-  const onAddToList = async (text: string) => {
+  const onAddToList = async (text: string) => { 
     const companyName = text
       .split(" ")
       .find((word) => word.includes("#"))
