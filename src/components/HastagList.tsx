@@ -17,7 +17,7 @@ export default function HastagList({
               setSelectedCompany(e.currentTarget.value);
             }}
           >
-            #{company}
+            #{company.toLowerCase()}
           </button>
         </li>
       ))}
