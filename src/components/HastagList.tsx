@@ -1,4 +1,5 @@
 import React from "react";
+import HashtagItem from "./HashtagItem";
 
 export default function HastagList({
   companyList,
@@ -10,16 +11,11 @@ export default function HastagList({
   return (
     <ul className="hashtags">
       {companyList.map((company) => (
-        <li key={company}>
-          <button
-            value={company}
-            onClick={(e) => {
-              setSelectedCompany(e.currentTarget.value);
-            }}
-          >
-            #{company.toLowerCase()}
-          </button>
-        </li>
+        <HashtagItem
+          key={company}
+          company={company}
+          setSelectedCompany={setSelectedCompany}
+        />
       ))}
     </ul>
   );
