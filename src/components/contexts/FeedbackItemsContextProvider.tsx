@@ -1,5 +1,11 @@
 import { FeedbackItemType } from "@/lib/type";
-import React, { createContext, useEffect, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 type FeedbackItemsContextType = {
   feedbackItems: FeedbackItemType[];
@@ -11,9 +17,8 @@ type FeedbackItemsContextType = {
   onAddToList: (_: string) => void;
 };
 
-const FeedbackItemsContext = createContext<FeedbackItemsContextType | null>(
-  null
-);
+export const FeedbackItemsContext =
+  createContext<FeedbackItemsContextType | null>(null);
 
 export default function FeedbackItemsContextProvider({
   children,
@@ -113,4 +118,12 @@ export default function FeedbackItemsContextProvider({
       {children}
     </FeedbackItemsContext.Provider>
   );
+}
+
+export function useFeedbackItemsContext() {
+  const context = useContext(FeedbackItemsContext);
+  if (!context) {
+    throw new Error("FeedbackItemsContext is not defined");
+  }
+  return context;
 }

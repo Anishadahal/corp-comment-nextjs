@@ -37,7 +37,7 @@ export default function FeedbackForm({
   console.log(showInvalidIndicator);
   return (
     <form
-      className={`"form" ${showValidIndicator ? "form--valid" : ""} ${
+      className={`form ${showValidIndicator ? "form--valid" : ""} ${
         showInvalidIndicator ? "form--invalid " : ""
       }`}
       onSubmit={handleSubmit}

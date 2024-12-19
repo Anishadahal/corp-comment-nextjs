@@ -3,12 +3,11 @@ import Pattern from "./Pattern";
 import Logo from "./Logo";
 import PageHeading from "./PageHeading";
 import FeedbackForm from "./FeedbackForm";
+import { useFeedbackItemsContext } from "./contexts/FeedbackItemsContextProvider";
 
-export default function Header({
-  onAddToList,
-}: {
-  onAddToList: (str: string) => void;
-}) {
+export default function Header() {
+  const { onAddToList } = useFeedbackItemsContext();
+
   return (
     <header
       className="h-[277px] bg-[#121618] flex flex-col items-center justify-center relative 
